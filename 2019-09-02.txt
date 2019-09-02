@@ -29,6 +29,9 @@ transform:
 无效验证：
 空数组返回0
 
+考察内容：正则
+正则参考网址：https://www.runoob.com/java/java-regular-expressions.html
+
 
 Solution:
 
@@ -38,7 +41,21 @@ public class SmileFaces {
   
   public static int countSmileys(List<String> arr) {
       // Just Smile :)
-      return 0;
+	  if (arr == null) {
+            return 0;
+        }
+
+        if (arr.size() == 0) {
+            return 0;
+        }
+
+        int count = 0;
+        for (String a : arr) {
+            if (check(a)) {
+                count ++;
+            }
+        }
+        return count;
   }
 }
 
