@@ -1,0 +1,79 @@
+Description:
+Jaden Smith, the son of Will Smith, is the star of films such as The Karate Kid (2010) and After Earth (2013). Jaden is also known for some of his philosophy that he delivers via Twitter. When writing on Twitter, he is known for almost always capitalizing every word.
+
+Your task is to convert strings to how they would be written by Jaden Smith. The strings are actual quotes from Jaden Smith, but they are not capitalized in the same way he originally typed them.
+
+Example:
+
+Not Jaden-Cased: "How can mirrors be real if our eyes aren't real"
+Jaden-Cased:     "How Can Mirrors Be Real If Our Eyes Aren't Real"
+Note that the Java version expects a return value of null for an empty string or null.
+
+transform:
+设计一个方法可以将一段字符串按指定格式（Jaden-Cased）输出
+Jaden-Cased格式规则：每个单词首字母大写
+
+考察内容：
+基本字符串、字符操作，分割，转换，拼接
+参考资料 http://blog.csdn.net/yaokai_assultmaster/article/details/52082763
+
+Solution:
+
+public class JadenCase {
+
+	public static String toJadenCase(String phrase) {
+        // TODO put your code below this comment
+        if (phrase == null || phrase.equals("")) {
+            return null;
+        }
+
+        String[] strArray = phrase.split("\\s");
+
+        return transformToJadenCaseString(strArray);
+    }
+
+    private static String transformToJadenCaseString(String[] strArray) {
+        for (int i = 0; i < strArray.length; i++) {
+            String str = strArray[i];
+            char[] charList = str.toLowerCase().toCharArray();
+            charList[0] = String.valueOf(charList[0]).toUpperCase().toCharArray()[0];
+            strArray[i] = String.valueOf(charList);
+        }
+        return String.join(" ",strArray);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(JadenCase.toJadenCase("sdsad sdsd sadasd"));
+    }
+
+}
+
+Sample Tests:
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import org.junit.Test;
+
+public class JadenCaseTest {
+
+	
+	JadenCase jadenCase = new JadenCase();
+	
+	@Test
+	public void test() {
+		assertEquals("toJadenCase doesn't return a valide JadenCase String! try again please :)", "Most Trees Are Blue", jadenCase.toJadenCase("most trees are blue"));
+	}
+	
+	@Test
+	public void testNullArg() {
+		assertNull("Must return null when the arg is null", jadenCase.toJadenCase(null));
+	}
+	
+	@Test
+	public void testEmptyArg() {
+		assertNull("Must return null when the arg is empty string", jadenCase.toJadenCase(""));
+	}
+
+}
