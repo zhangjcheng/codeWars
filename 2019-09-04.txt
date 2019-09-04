@@ -1,0 +1,57 @@
+Description:
+Don't give me five!
+In this kata you get the start number and the end number of a region and should return the count of all numbers except numbers with a 5 in it. The start and the end number are both inclusive!
+
+Examples:
+
+1,9 -> 1,2,3,4,6,7,8,9 -> Result 8
+4,17 -> 4,6,7,8,9,10,11,12,13,14,16,17 -> Result 12
+The result may contain fives. ;-)
+The start number will always be smaller than the end number. Both numbers can be also negative!
+
+I'm very curious for your solutions and the way you solve it. Maybe someone of you will find an easy pure mathematics solution.
+
+Have fun coding it and please don't forget to vote and rank this kata! :-)
+
+I have also created other katas. Take a look if you enjoyed this kata!
+
+Transform:
+设计一个方法传入两个数字 一个起始数字 一个结束数字  返回结果里不包含数字5的计数 
+传入参数规则：起始数字不大于5 
+
+考察内容：
+基本数学计算 结束减去起始 为个数总计数 减去一个数字5 
+数学公式  num = end - start;
+
+Solution:
+public class Kata
+{
+  public static int dontGiveMeFive(int start, int end) {
+        if (start >= end) {
+            if (start == 5) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+
+        if (start > 5) {
+            return end - start + 1;
+        } else {
+            return end - start;
+        }
+    }
+}
+
+Sample Tests:
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import org.junit.runners.JUnit4;
+
+public class KataTests {
+    @Test
+    public void exampleTests() {
+      assertEquals(8, Kata.dontGiveMeFive(1,9));
+      assertEquals(13, Kata.dontGiveMeFive(4,17));
+    }
+}
