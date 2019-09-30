@@ -1,0 +1,72 @@
+Description:
+You might know some pretty large perfect squares. But what about the NEXT one?
+
+Complete the findNextSquare method that finds the next integral perfect square after the one passed as a parameter. Recall that an integral perfect square is an integer n such that sqrt(n) is also an integer.
+
+If the parameter is itself not a perfect square, than -1 should be returned. You may assume the parameter is positive.
+
+Example：
+findNextSquare(121) --> returns 144
+findNextSquare(625) --> returns 676
+findNextSquare(114) --> returns -1 since 114 is not a perfect
+
+Transform:
+设计一个方法传入一个整数的平方数输出下一个整数的平方数 如果传入的不是整数的平方输出-1
+
+考察内容：
+数值计算、数据操作、基本语言能力
+
+Solution:
+package com.newretail.vendor.constant;
+
+/**
+ * @author zhangjincheng
+ * @ClassName NumberFun
+ * @Description 下一个平方数
+ * @createDate 2019/9/30
+ * @updatePerson
+ * @updateDate
+ */
+public class NumberFun {
+    public static long findNextSquare(long sq) {
+        Double d = Math.sqrt(sq);
+        Integer i = d.intValue();
+        if ((i + 0D) == d) {
+            return (long)Math.pow(i + 1D, 2D);
+        } else {
+            return -1;
+        }
+    }
+}
+
+Sample Tests:
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import org.junit.runners.JUnit4;
+
+
+public class FindNextSquareTest {
+    @Test
+    public void test1() {
+        assertEquals(144, NumberFun.findNextSquare(121));
+    }
+    
+    @Test
+    public void test2() {
+        assertEquals(676, NumberFun.findNextSquare(625));
+    }
+    
+    @Test
+    public void test3() {
+        assertEquals(-1, NumberFun.findNextSquare(114));
+    }
+    
+    
+}
+
+最佳实践：
+public class NumberFun {
+  public static long findNextSquare(long sq) {
+      return Math.sqrt(sq) % 1 != 0 ? -1 : (long)Math.pow(Math.sqrt(sq)+1,2);
+  }
+}

@@ -1,0 +1,169 @@
+Description:
+Your job is to create a calculator which evaluates expressions in Reverse Polish notation.
+
+For example expression 5 1 2 + 4 * + 3 - (which is equivalent to 5 + ((1 + 2) * 4) - 3 in normal notation) should evaluate to 14.
+
+For your convenience, the input is formatted such that a space is provided between every token.
+
+Empty expression should evaluate to 0.
+
+Valid operations are +, -, *, /.
+
+You may assume that there won't be exceptional situations (like stack underflow or division by zero).
+
+Example：
+["a","b","c","d","f"] -> "e"
+["O","Q","R","S"] -> "P"
+
+Transform:
+设计一个方法根据后置运算计算
+
+考察内容：
+数据操作、基本语言能力
+
+Solution:
+package com.newretail.vendor.constant;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiFunction;
+
+/**
+ * @author zhangjincheng
+ * @ClassName Calc
+ * @Description 波兰计算器
+ * @createDate 2019/9/30
+ * @updatePerson
+ * @updateDate
+ */
+public class Calc {
+
+    private static Map<String, BiFunction<Double, Double, Double>> operations = new HashMap<>(4);
+
+    static {
+        operations.put("+", Calc::add);
+        operations.put("-", Calc::sub);
+        operations.put("*", Calc::mul);
+        operations.put("/", Calc::div);
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(evaluate("1 3 +"));
+    }
+
+    public static double evaluate(String expr) {
+
+        if (expr == null || expr.length() ==0) {
+            return 0D;
+        }
+        String[] dataArray = expr.split( " ");
+
+        List<Double> opData = new ArrayList();
+        for (int i = 0; i < dataArray.length; i ++) {
+            String c = dataArray[i];
+            BiFunction opreate = operations.get(c);
+            if (opreate != null) {
+                Double result = (Double)opreate.apply(opData.get(opData.size() - 2), opData.get(opData.size() - 1));
+                opData.remove(opData.size() - 2);
+                opData.remove(opData.size() - 1);
+                opData.add(result);
+            } else {
+                opData.add(Double.parseDouble(c));
+            }
+        }
+        return opData.get(0);
+    }
+
+    private static double add(double d1, double d2) {
+        return d1 + d2;
+    }
+
+    private static double sub(double d1, double d2) {
+        return d1 - d2;
+    }
+
+    private static double mul(double d1, double d2) {
+        return d1 * d2;
+    }
+
+    private static double div(double d1, double d2) {
+        return d1 / d2;
+    }
+}
+
+
+Sample Tests:
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
+public class CalcTest {
+
+  private Calc calc = new Calc();
+
+  @Test
+  public void shouldWorkWithEmptyString() {
+      assertEquals("Should work with empty string", 0, calc.evaluate(""), 0);
+  }
+  
+  @Test
+  public void shouldParseNumbers() {
+      assertEquals("Should parse numbers", 3, calc.evaluate("3"), 0);
+  }
+
+  @Test
+  public void shouldParseFloatNumbers() {
+      assertEquals("Should parse float numbers", 3.5, calc.evaluate("3.5"), 0);
+  }
+
+  @Test
+  public void shouldSupportAddition() {
+      assertEquals("Should support addition", 4, calc.evaluate("1 3 +"), 0);
+  }
+
+  @Test
+  public void shouldSupportMultiplication() {
+      assertEquals("Should support multiplication", 3, calc.evaluate("1 3 *"), 0);
+  }
+
+  @Test
+  public void shouldSupportSubstraction() {
+      assertEquals("Should support substraction", -2, calc.evaluate("1 3 -"), 0);
+  }
+
+  @Test
+  public void shouldSupportDivision() {
+      assertEquals("Should support division", 2, calc.evaluate("4 2 /"), 0);
+  }
+}
+
+最佳实践：
+import java.util.Stack;
+
+public class Calc {
+
+  public double evaluate(String expr) {
+    if (expr.equals("")) {
+      return 0;
+    }
+  
+    Stack<Double> stack = new Stack<Double>();
+    String[] atoms = expr.split(" ");
+    
+    for (String atom: atoms) {
+      Double a, b;
+      switch (atom) {
+        case "+": stack.push(stack.pop() + stack.pop()); break;
+        case "-": b = stack.pop(); a = stack.pop(); stack.push(a - b); break;
+        case "*": stack.push(stack.pop() * stack.pop()); break;
+        case "/": b = stack.pop(); a = stack.pop(); stack.push(a / b); break;
+        default:
+          stack.push(Double.parseDouble(atom));
+      }
+    }
+    
+    return stack.pop();
+  }
+}

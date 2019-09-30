@@ -1,0 +1,81 @@
+Description:
+This time no story, no theory. The examples below show you how to write function accum:
+
+
+Example：
+accum("abcd") -> "A-Bb-Ccc-Dddd"
+accum("RqaEzty") -> "R-Qq-Aaa-Eeee-Zzzzz-Tttttt-Yyyyyyy"
+accum("cwAt") -> "C-Ww-Aaa-Tttt"
+
+Transform:
+设计一个方法传入一个字符串，字符串按位置数输出第一个字符大写
+
+考察内容：
+数值计算、数据统计操作、基本语言能力
+
+Solution:
+package com.newretail.vendor.constant;
+
+/**
+ * @author zhangjincheng
+ * @ClassName Accumul
+ * @Description 位置与计数输出
+ * @createDate 2019/9/30
+ * @updatePerson
+ * @updateDate
+ */
+public class Accumul {
+
+    public static String accum(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+        char[] charArray = s.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < charArray.length; i++) {
+            sb.append(formatChar(charArray[i], i + 1)).append("-");
+        }
+        return sb.subSequence(0,sb.length() - 1).toString();
+    }
+
+    private static String formatChar(char c, int i) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(Character.toString(c).toUpperCase());
+        i --;
+        while (i > 0) {
+            sb.append(Character.toString(c).toLowerCase());
+            i --;
+        }
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(accum("ZpglnRxqenU"));
+    }
+}
+
+
+Sample Tests:
+import static org.junit.Assert.*;
+import org.junit.Test;
+
+
+public class AccumulTest {
+
+    private static void testing(String actual, String expected) {
+        assertEquals(expected, actual);
+    }
+    @Test
+    public void test() {
+        System.out.println("Fixed Tests accum");
+        testing(Accumul.accum("ZpglnRxqenU"), "Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqqqq-Eeeeeeeee-Nnnnnnnnnn-Uuuuuuuuuuu");
+        testing(Accumul.accum("NyffsGeyylB"), "N-Yy-Fff-Ffff-Sssss-Gggggg-Eeeeeee-Yyyyyyyy-Yyyyyyyyy-Llllllllll-Bbbbbbbbbbb");
+        testing(Accumul.accum("MjtkuBovqrU"), "M-Jj-Ttt-Kkkk-Uuuuu-Bbbbbb-Ooooooo-Vvvvvvvv-Qqqqqqqqq-Rrrrrrrrrr-Uuuuuuuuuuu");
+        testing(Accumul.accum("EvidjUnokmM"), "E-Vv-Iii-Dddd-Jjjjj-Uuuuuu-Nnnnnnn-Oooooooo-Kkkkkkkkk-Mmmmmmmmmm-Mmmmmmmmmmm");
+        testing(Accumul.accum("HbideVbxncC"), "H-Bb-Iii-Dddd-Eeeee-Vvvvvv-Bbbbbbb-Xxxxxxxx-Nnnnnnnnn-Cccccccccc-Ccccccccccc");
+    }
+}
+
+最佳实践：
+
+同上

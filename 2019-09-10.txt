@@ -1,0 +1,79 @@
+Description:
+An isogram is a word that has no repeating letters, consecutive or non-consecutive. 
+Implement a function that determines whether a string that contains only letters is an isogram. 
+Assume the empty string is an isogram. Ignore letter case.
+
+Examples：
+isIsogram "Dermatoglyphics" == true
+isIsogram "moose" == false
+isIsogram "aba" == false
+
+Transform:
+设计一个方法判断字符串中所有字母是否出现频率只有一次
+
+考察内容：
+频次统计、基本语言能力
+
+Solution:
+package com.newretail.vendor.constant;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author zhangjincheng
+ * @ClassName Isogram
+ * @Description 统计字符是否只出现一次
+ * @createDate 2019/9/30
+ * @updatePerson
+ * @updateDate
+ */
+public class Isogram {
+    public static boolean  isIsogram(String str) {
+        if (str == null) {
+            return false;
+        }
+
+        if (str.equals("")) {
+            return true;
+        }
+
+        char[] charArray = str.toLowerCase().toCharArray();
+        Map<Character, Character> existMap = new HashMap<>(charArray.length);
+        for (char c : charArray) {
+            if (existMap.containsKey(c)) {
+                return false;
+            } else {
+                existMap.put(c, c);
+            }
+        }
+        return true;
+    }
+}
+
+Sample Tests:
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import org.junit.runners.JUnit4;
+public class Tests {
+    @Test
+    public void FixedTests() {
+        assertEquals(true, isogram.isIsogram("Dermatoglyphics"));
+        assertEquals(true, isogram.isIsogram("isogram"));
+        assertEquals(false, isogram.isIsogram("moose"));
+        assertEquals(false, isogram.isIsogram("isIsogram"));
+        assertEquals(false, isogram.isIsogram("aba"));
+        assertEquals(false, isogram.isIsogram("moOse"));
+        assertEquals(true, isogram.isIsogram("thumbscrewjapingly"));
+        assertEquals(true, isogram.isIsogram("")); 
+    }
+}
+
+最佳实践：
+
+public class isogram {
+  public static boolean  isIsogram(String str) {
+    return str.length() == str.toLowerCase().chars().distinct().count();
+  } 
+}
+

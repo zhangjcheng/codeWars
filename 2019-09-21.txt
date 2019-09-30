@@ -1,0 +1,63 @@
+Description:
+Write a function that accepts an array of 10 integers (between 0 and 9), that returns a string of those numbers in the form of a phone number.
+
+Example：
+Kata.createPhoneNumber(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}) // => returns "(123) 456-7890"
+
+Transform:
+设计一个方法传入一个电话号 格式化这个电话号
+(123) 456-7890
+
+考察内容：
+基本语言能力
+
+Solution:
+package com.newretail.vendor.constant;
+
+/**
+ * @author zhangjincheng
+ * @ClassName PhoneFormat
+ * @Description 格式化电话号
+ * @createDate 2019/9/30
+ * @updatePerson
+ * @updateDate
+ */
+public class PhoneFormat {
+
+    public static String createPhoneNumber(int[] numbers) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = numbers.length - 1; i >= 0; i--) {
+            sb.append(numbers[i]);
+            if (i == 0) {
+                sb.append("(");
+            }
+            if (i == 3) {
+                sb.append(" )");
+            }
+            if (i == 6) {
+                sb.append("-");
+            }
+        }
+        return sb.reverse().toString();
+    }
+}
+
+
+Sample Tests:
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+
+public class PhoneExampleTests {
+  @Test
+  public void tests() {
+    assertEquals("(123) 456-7890", Kata.createPhoneNumber(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}));
+  }
+}
+
+最佳实践：
+
+public class PhoneFormat {
+  public static String createPhoneNumber(int[] numbers) {
+    return String.format("(%d%d%d) %d%d%d-%d%d%d%d",numbers[0],numbers[1],numbers[2],numbers[3],numbers[4],numbers[5],numbers[6],numbers[7],numbers[8],numbers[9]);
+  }
+}

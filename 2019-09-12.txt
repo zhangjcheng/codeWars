@@ -1,0 +1,72 @@
+Description:
+#Find the missing letter
+
+Write a method that takes an array of consecutive (increasing) letters as input and that returns the missing letter in the array.
+
+You will always get an valid array. And it will be always exactly one letter be missing. The length of the array will always be at least 2.
+The array will always contain letters in only one case.
+
+Example：
+["a","b","c","d","f"] -> "e"
+["O","Q","R","S"] -> "P"
+
+Transform:
+设计一个方法返回缺少的字母
+
+考察内容：
+字符操作、基本语言能力
+
+Solution:
+package com.newretail.vendor.constant;
+
+/**
+ * @author zhangjincheng
+ * @ClassName FindMissingLetter
+ * @Description 找缺少的连续字母
+ * @createDate 2019/9/30
+ * @updatePerson
+ * @updateDate
+ */
+public class FindMissingLetter {
+
+    public static char findMissingLetter(char[] array) {
+        char missChar = ' ';
+        boolean flag = true;
+
+        for (char c : array) {
+            if (flag || ++ missChar == c) {
+                flag = false;
+                missChar = c;
+            } else {
+                return missChar;
+            }
+        }
+        return missChar;
+    }
+}
+
+Sample Tests:
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import org.junit.runners.JUnit4;
+
+public class SolutionTest {
+    @Test
+    public void exampleTests() {
+        assertEquals('e', Kata.findMissingLetter(new char[] { 'a','b','c','d','f' }));
+        assertEquals('P', Kata.findMissingLetter(new char[] { 'O','Q','R','S' }));
+    }
+}
+
+最佳实践：
+public class Kata
+{
+  public static char findMissingLetter(char[] array){
+    char expectableLetter = array[0];
+    for(char letter : array){
+      if(letter != expectableLetter) break;
+      expectableLetter++;
+    }
+    return expectableLetter;
+  }
+}

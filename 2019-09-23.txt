@@ -1,0 +1,103 @@
+Description:
+Write simple .camelCase method (camel_case function in PHP, 
+CamelCase in C# or camelCase in Java) for strings. 
+All words must have their first letter capitalized without spaces.
+
+Example：
+camelCase("hello case"); // => "HelloCase"
+camelCase("camel case word"); // => "CamelCaseWord"
+
+Transform:
+单词驼峰命名转换
+
+考察内容：
+基本语言能力
+
+Solution:
+package com.newretail.vendor.constant;
+
+/**
+ * @author zhangjincheng
+ * @ClassName CamelCaseUtil
+ * @Description 驼峰命名工具类
+ * @createDate 2019/9/30
+ * @updatePerson
+ * @updateDate
+ */
+public class CamelCaseUtil {
+    public static String camelCase(String str) {
+        StringBuilder sb = new StringBuilder();
+        for (String s : str.split(" ")) {
+            char[] c = s.toLowerCase().toCharArray();
+            if (c.length != 0) {
+                c[0] = s.toUpperCase().charAt(0);
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+}
+
+
+
+Sample Tests:
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import org.junit.runners.JUnit4;
+
+public class SolutionTest {
+
+    @Test
+    public void testTwoWords() {
+        assertEquals("TestCase", Solution.camelCase("test case"));
+    }
+
+    @Test
+    public void testThreeWords() {
+        assertEquals("CamelCaseMethod", Solution.camelCase("camel case method"));
+    }
+
+    @Test
+    public void testLeadingSpace() {
+        assertEquals("CamelCaseWord", Solution.camelCase(" camel case word"));
+    }
+
+    @Test
+    public void testTrailingSpace() {
+        assertEquals("SayHello", Solution.camelCase("say hello "));
+    }
+
+    @Test
+    public void testSingleLetter() {
+        assertEquals("Z", Solution.camelCase("z"));
+    }
+
+    @Test
+    public void testTwoSpacesBetweenWords() {
+        assertEquals("AbC", Solution.camelCase("ab  c"));
+    }
+
+    @Test
+    public void testEmptyString() {
+        assertEquals("", Solution.camelCase(""));
+    }
+    
+}
+
+最佳实践：
+
+public class Solution {
+    public static String camelCase(String str) {
+        // your code here
+        String[] strings = str.split(" ");
+        StringBuilder stringBuilder=new StringBuilder();
+        for (String string : strings) {
+            if (string.length()>0){
+                stringBuilder.append(string.replaceFirst(string.substring(0, 1), string.substring(0, 1).toUpperCase()));
+            }
+
+        }
+        return new String(stringBuilder);
+
+    }
+}
