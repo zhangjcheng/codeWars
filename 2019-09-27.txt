@@ -1,0 +1,52 @@
+Description:
+The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
+
+Max.sequence(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4});
+// should be 6: {4, -1, 2, 1}
+Easy case is when the list is made up of only positive numbers and the maximum sum is the sum of the whole array. If the list is made up of only negative numbers, return 0 instead.
+
+Empty list is considered to have zero greatest sum. Note that the empty list or array is also a valid sublist/subarray.
+
+
+
+Example：
+assertEquals("Example array should have a max of 6", 6, Max.sequence(new int[]{-2, 1, -3, 4, -1, 2, 1, -5, 4}));
+
+Transform:
+设计一个方法获取最大子数组
+
+考察内容：
+基本语言能力
+
+Solution:
+public class Max {
+
+    public static int sequence(int[] arr) {
+        int max_ending_here = 0, max_so_far = 0;
+        for (int v : arr) {
+            max_ending_here = Math.max(0, max_ending_here + v);
+            max_so_far = Math.max(max_so_far, max_ending_here);
+        }
+        return max_so_far;
+    }
+}
+
+
+
+
+Sample Tests:
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import org.junit.runners.JUnit4;
+public class PigLatinTests {
+    @Test
+    public void FixedTests() {
+        assertEquals("igPay atinlay siay oolcay", PigLatin.pigIt("Pig latin is cool"));
+        assertEquals("hisTay siay ymay tringsay", PigLatin.pigIt("This is my string"));
+    }
+}
+
+
+最佳实践：
+
+同上

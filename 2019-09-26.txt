@@ -1,0 +1,81 @@
+Description:
+Move the first letter of each word to the end of it, then add "ay" to the end of the word. Leave punctuation marks untouched.
+
+Example：
+pigIt('Pig latin is cool'); // igPay atinlay siay oolcay
+pigIt('Hello world !');     // elloHay orldway !
+
+Transform:
+设计一个方法输出包含翻转单个字母加密的英文
+
+考察内容：
+基本语言能力
+
+Solution:
+package com.newretail.vendor.constant;
+
+/**
+ * @author zhangjincheng
+ * @ClassName PigLatin
+ * @Description 翻转加密还原
+ * @createDate 2019/10/8
+ * @updatePerson
+ * @updateDate
+ */
+public class PigLatin {
+
+    public static String pigIt(String str) {
+        // Write code here
+        String temp = "";
+        if (" ".equals(str.charAt(str.length() - 1))) {
+            temp = " ";
+        }
+        String[] resultArray = str.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < resultArray.length; i++) {
+            String s = resultArray[i];
+            int length = s.length();
+
+            s += s;
+            sb.append(s.substring(1, length + 1));
+            if (i == resultArray.length - 1 && length == 1) {
+                sb.append("");
+            } else if (i == resultArray.length - 1) {
+
+                sb.append("ay");
+            } else {
+
+                sb.append("ay ");
+            }
+        }
+        return sb.append(temp).toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(pigIt("Orz tempora o mores ! "));
+    }
+}
+
+
+
+
+Sample Tests:
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import org.junit.runners.JUnit4;
+public class PigLatinTests {
+    @Test
+    public void FixedTests() {
+        assertEquals("igPay atinlay siay oolcay", PigLatin.pigIt("Pig latin is cool"));
+        assertEquals("hisTay siay ymay tringsay", PigLatin.pigIt("This is my string"));
+    }
+}
+
+
+最佳实践：
+
+public class PigLatin {
+    public static String pigIt(String str) {
+        return str.replaceAll("(\\w)(\\w*)", "$2$1ay");
+    }
+}
