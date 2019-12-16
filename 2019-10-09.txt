@@ -1,0 +1,66 @@
+Description:
+Write a program that will calculate the number of trailing zeros in a factorial of a given number.
+
+N! = 1 * 2 * 3 * ... * N
+
+Be careful 1000! has 2568 digits...
+
+For more info, see: http://mathworld.wolfram.com/Factorial.html
+
+Examples
+zeros(6) = 1
+# 6! = 1 * 2 * 3 * 4 * 5 * 6 = 720 --> 1 trailing zero
+
+zeros(12) = 2
+# 12! = 479001600 --> 2 trailing zeros
+Hint: You're not meant to calculate the factorial. Find another way to find the number of zeros.
+
+
+Transform:
+设计一个方法输入一个数，输出该数阶乘的尾零个数
+
+考察内容：
+基本语言能力、阶乘归纳
+
+Solution:
+package com.newretail.vendor.constant;
+
+/**
+ * @author zhangjincheng
+ * @ClassName Zeros
+ * @Description 阶乘尾零个数
+ * @createDate 2019/10/11
+ * @updatePerson
+ * @updateDate
+ */
+public class Zeros {
+    public static int zeros(int n) {
+        // your beatiful code here
+        int r = 0; // 结果
+        while (n/5 > 0) {
+            r += n / 5;
+            n = n / 5;
+        }
+        return r;
+    }
+}
+
+
+
+Sample Tests:
+import org.junit.Test;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
+
+public class SolutionTest {
+  @Test
+  public void testZeros() throws Exception {
+    assertThat(Solution.zeros(0), is(0)); 
+    assertThat(Solution.zeros(6), is(1)); 
+    assertThat(Solution.zeros(14), is(2));    
+  }
+}
+
+最佳实践：
+
+同上

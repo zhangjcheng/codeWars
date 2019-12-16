@@ -1,0 +1,91 @@
+Description:
+Write a function that accepts a starting and ending IPv4 address, and the number of IP addresses from start to end, excluding the end IP address.
+
+All input to the function will be valid IPv4 addresses in the form of strings. The ending address will be at least one address higher than the starting address.
+
+
+Examples
+ips_between("10.0.0.0", "10.0.0.50")  =>   50 
+ips_between("10.0.0.0", "10.0.1.0")   =>  256 
+ips_between("20.0.0.10", "20.0.1.0")  =>  246
+
+
+Transform:
+传入起始结束ip求有效ip个数
+
+考察内容：
+基本语言能力、有效 ip 范围
+
+Solution:
+package com.newretail.vendor.feign;
+
+/**
+ * @author zhangjincheng
+ * @ClassName CountIPAddresses
+ * @Description 有效ip计数
+ * @createDate 2019/10/29
+ * @updatePerson
+ * @updateDate
+ */
+public class CountIPAddresses {
+
+    public static long ipsBetween(String start, String end) {
+        String[] startArray = start.split("\\.");
+        String[] endArray = end.split("\\.");
+        // 256 进制的减法
+        long result = 0;
+        result = ip2Dec(endArray) - ip2Dec(startArray);
+        return result > 0 ? result : result * -1;
+    }
+
+    private static Long ip2Dec(String[] ipArray) {
+        Long startNumber = 0L;
+        for (int i = 0; i < ipArray.length; i++) {
+            int ipB = 3 - i; // 四位乘机做进制
+            Long bL = Long.parseLong(ipArray[i]);
+            while(ipB > 0) {
+                ipB --;
+                bL *= (256);
+            }
+            startNumber += bL;
+        }
+        return startNumber;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(ipsBetween("20.0.0.10", "20.0.1.0"));
+    }
+}
+
+
+
+Sample Tests:
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+public class CountIPAddressesTest {
+
+	@Test
+	public void ipsBetween() throws Exception {
+		assertEquals( 50, CountIPAddresses.ipsBetween( "10.0.0.0", "10.0.0.50" ) );
+		assertEquals( 246, CountIPAddresses.ipsBetween( "20.0.0.10", "20.0.1.0" ) );
+	}
+
+}
+
+最佳实践：
+
+public class CountIPAddresses {
+
+  public static long ipsBetween(String start, String end) {
+    return convertToLong(end) - convertToLong(start);
+  }
+  
+  private static long convertToLong(String ip) {
+    long res = 0;
+    for (String s : ip.split("[.]") )
+      res = res * 256 + Long.parseLong(s);
+    return res;
+  }
+}

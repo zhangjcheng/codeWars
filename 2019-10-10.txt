@@ -1,0 +1,148 @@
+Description:
+This is the first part of this kata series. Second part is here.
+
+We want to create a simple interpreter of assembler which will support the following instructions:
+
+mov x y - copies y (either a constant value or the content of a register) into register x
+inc x - increases the content of register x by one
+dec x - decreases the content of register x by one
+jnz x y - jumps to an instruction y steps away (positive means forward, negative means backward), but only if x (a constant or a register) is not zero
+Register names are alphabetical (letters only). Constants are always integers (positive or negative).
+
+Note: the jnz instruction moves relative to itself. For example, an offset of -1 would continue at the previous instruction, while an offset of 2 would skip over the next instruction.
+
+The function will take an input list with the sequence of the program instructions and will return a dictionary with the contents of the registers.
+
+Also, every inc/dec/jnz on a register will always be followed by a mov on the register first, so you don't need to worry about uninitialized registers.
+
+Examples:
+
+SimpleAssebmler.interpret(new String[]{"mov a 5","inc a","dec a","dec a","jnz a -1","inc a"});
+
+''' visualized:
+mov a 5
+inc a
+dec a
+dec a
+jnz a -1
+inc a
+''''
+
+The above code will:
+
+set register a to 5,
+increase its value by 1,
+decrease its value by 2,
+then decrease its value until it is zero (jnz a -1 jumps to the previous instruction if a is not zero)
+and then increase its value by 1, leaving register a at 1
+So, the function should return
+
+{a=1}
+
+
+Transform:
+一个基本编译器
+
+考察内容：
+基本语言能力
+
+Solution:
+package com.newretail.vendor.feign;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author zhangjincheng
+ * @ClassName SimpleAssembler
+ * @Description base解释器
+ * @createDate 2019/10/21
+ * @updatePerson
+ * @updateDate
+ */
+public class SimpleAssembler {
+
+    public static Map<String, Integer> interpret(String[] program){
+
+        Map<String, Integer> result = new HashMap<>(); // 变量表
+        int index = 0; // 程序计数器
+        while(index != program.length) {
+            String[] instruct = program[index].split(" ");
+            String cp = instruct[0];
+            if (cp.equals("mov")) {
+                // 是变量重新赋值
+                if (result.get(instruct[2]) == null) {
+                    result.put(instruct[1], Integer.parseInt(instruct[2]));
+                } else {
+                    result.put(instruct[1], result.get(instruct[2]));
+                }
+            } else if (cp.equals("inc")) {
+                result.put(instruct[1],result.get(instruct[1]) + 1);
+            } else if (cp.equals("dec")) {
+                result.put(instruct[1],result.get(instruct[1]) - 1);
+            } else if (cp.equals("jnz")) {
+                // 归零操作内嵌循环
+                int overCp = index + Integer.parseInt(instruct[2]);
+                int innerIndex = overCp;
+                while(result.get(instruct[1]) != 0 || innerIndex != overCp) {
+                    String[] innerInstruct = program[innerIndex].split(" ");
+                    String innerCp = innerInstruct[0];
+                    if (innerCp.equals("mov")) {
+                        // 是变量重新赋值
+                        if (result.get(innerInstruct[2]) == null) {
+                            result.put(innerInstruct[1], Integer.parseInt(innerInstruct[2]));
+                        } else {
+                            result.put(innerInstruct[1], result.get(innerInstruct[2]));
+                        }
+                    } else if (innerCp.equals("inc")) {
+                        result.put(innerInstruct[1],result.get(innerInstruct[1]) + 1);
+                    } else if (innerCp.equals("dec")) {
+                        result.put(innerInstruct[1],result.get(innerInstruct[1]) - 1);
+                    }
+
+                    innerIndex ++;
+                    if (innerIndex == index) {
+                        innerIndex = innerIndex + Integer.parseInt(instruct[2]);
+                    }
+                }
+            }
+            index ++;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Map<String, Integer> result = new HashMap<>(); // 变量表
+        if (result.get("111") != 0){
+            System.out.println("====");
+        }
+    }
+}
+
+
+
+
+
+Sample Tests:
+public class SolutionTest {
+  @Test
+  public void simple_1() {
+    String[] program = new String[]{"mov a 5","inc a","dec a","dec a","jnz a -1","inc a"}; 
+    Map<String, Integer> out = new HashMap<String, Integer>();
+    out.put("a", 1);
+    assertEquals(out, SimpleAssembler.interpret(program));
+  }
+  
+  @Test
+  public void simple_2() {
+    String[] program = new String[]{"mov a -10","mov b a","inc a","dec b","jnz a -2"};
+    Map<String, Integer> out = new HashMap<String, Integer>();
+    out.put("a", 0);
+    out.put("b", -20);
+    assertEquals(out, SimpleAssembler.interpret(program));
+  }
+}
+
+最佳实践：
+
+同上

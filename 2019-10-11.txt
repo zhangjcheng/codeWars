@@ -1,0 +1,86 @@
+Description:
+Write a function called LCS that accepts two sequences and returns the longest subsequence common to the passed in sequences.
+
+Subsequence
+A subsequence is different from a substring. The terms of a subsequence need not be consecutive terms of the original sequence.
+
+Example subsequence
+Subsequences of "abc" = "a", "b", "c", "ab", "ac", "bc" and "abc".
+
+LCS examples
+Solution.lcs("abcdef", "abc") => returns "abc"
+Solution.lcs("abcdef", "acf") => returns "acf"
+Solution.lcs("132535365", "123456789") => returns "12356"
+Notes
+Both arguments will be strings
+Return value must be a string
+Return an empty string if there exists no common subsequence
+Both arguments will have one or more characters (in JavaScript)
+All tests will only have a single longest common subsequence. Don't worry about cases such as LCS( "1234", "3412" ), which would have two possible longest common subsequences: "12" and "34".
+Note that the Haskell variant will use randomized testing, but any longest common subsequence will be valid.
+
+Note that the OCaml variant is using generic lists instead of strings, and will also have randomized tests (any longest common subsequence will be valid).
+
+Tips
+Wikipedia has an explanation of the two properties that can be used to solve the problem:
+
+
+Transform:
+设计一个方法传入两个字符串输出最大公共子串;
+
+考察内容：
+基本语言能力、动态规划、状态矩阵
+
+Solution:
+package com.newretail.vendor.feign;
+
+/**
+ * @author zhangjincheng
+ * @ClassName Solution
+ * @Description 最大公共子串
+ * @createDate 2019/10/25
+ * @updatePerson
+ * @updateDate
+ */
+public class Solution {
+    public static String lcs(String x, String y) {
+        // your code here
+        int m = x.length(), n = y.length();
+        int[][] nums = new int[m + 1][n + 1];
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                nums[i][j] = nums[i - 1][j - 1] + (x.charAt(i - 1) == y.charAt(j - 1) ? 1 : 0);
+                nums[i][j] = Math.max(nums[i][j], nums[i - 1][j]);
+                nums[i][j] = Math.max(nums[i][j], nums[i][j - 1]);
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for(int i = 1; i <= n; i++) {
+            if (nums[m][i] - nums[m][i - 1] == 1) {
+                sb.append(y.charAt(i - 1));
+            }
+        }
+        return sb.toString();
+    }
+}
+
+
+
+
+
+Sample Tests:
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import org.junit.runners.JUnit4;
+
+public class SolutionTest {
+    @Test
+    public void exampleTests() {
+        assertEquals("", Solution.lcs("a", "b"));
+        assertEquals("abc", Solution.lcs("abcdef", "abc"));
+    }
+}
+
+最佳实践：
+
+同上
