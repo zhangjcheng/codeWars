@@ -1,0 +1,20 @@
+Instructions：
+In this simple assignment you are given a number and have to make it negative. But maybe the number is already negative?
+
+Examples：
+make_negative(1);  # return -1
+make_negative(-5); # return -5
+make_negative(0);  # return 0
+
+Sample Tests:
+Test.assert_equals(make_negative(42),-42)
+
+
+Solution:
+def make_negative( number ):
+    return -abs(number)
+	
+T：
+设计一个方法求负数
+B：
+same

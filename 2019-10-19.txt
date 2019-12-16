@@ -1,0 +1,24 @@
+Instructions：
+Complete the function/method so that it returns the url with anything after the anchor (#) removed.
+
+Examples：
+# returns 'www.codewars.com'
+remove_url_anchor('www.codewars.com#about')
+
+# returns 'www.codewars.com?page=1' 
+remove_url_anchor('www.codewars.com?page=1') 
+
+Sample Tests:
+Test.assert_equals(remove_url_anchor("www.codewars.com#about"), "www.codewars.com");
+Test.assert_equals(remove_url_anchor("www.codewars.com/katas/?page=1#about"), "www.codewars.com/katas/?page=1")
+Test.assert_equals(remove_url_anchor("www.codewars.com/katas/"), "www.codewars.com/katas/")
+
+Solution:
+def remove_url_anchor(url):
+  return url.split('#')[0]
+	
+T：
+设计一个方法去掉#号后面的
+B：
+def remove_url_anchor(url):
+  return url.split('#')[0]

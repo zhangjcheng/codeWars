@@ -1,0 +1,20 @@
+Instructions：
+We need a function that can transform a number into a string.
+
+What ways of achieving this do you know?
+
+Examples：
+number_to_string(123) /* returns '123' */
+number_to_string(999) /* returns '999' */
+
+Sample Tests:
+test.expect(number_to_string(67) == '67');
+
+Solution:
+def number_to_string(num):
+    return str(num)
+	
+T：
+设计一个方法数字转字符
+B：
+same
