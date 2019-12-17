@@ -1,0 +1,10 @@
+Instructions：
+Write function makeUpperCase.
+
+Sample Tests:
+test.assert_equals(make_upper_case("hello"), "HELLO")
+
+B：
+return s.upper()
+
+T：
